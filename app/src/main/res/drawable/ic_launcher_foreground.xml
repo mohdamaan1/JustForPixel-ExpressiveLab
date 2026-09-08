@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Expressive Outer Rings -->
+    <path
+        android:strokeColor="#D0BCFF"
+        android:strokeWidth="2"
+        android:pathData="M 54, 28 A 26,26 0 1,1 53.99, 28" />
+
+    <path
+        android:strokeColor="#9A82DB"
+        android:strokeWidth="1.5"
+        android:pathData="M 54, 33 A 21,21 0 1,1 53.99, 33" />
+
+    <!-- Center Play Squircle Container -->
+    <path
+        android:fillColor="#D0BCFF"
+        android:pathData="M 43,41 h 22 a 8,8 0 0 1 8,8 v 10 a 8,8 0 0 1 -8,8 h -22 a 8,8 0 0 1 -8,-8 v -10 a 8,8 0 0 1 8,-8 z" />
+
+    <!-- Center Play Triangle -->
+    <path
+        android:fillColor="#381E72"
+        android:pathData="M 50,48 L 60,54 L 50,60 Z" />
+
+</vector>
