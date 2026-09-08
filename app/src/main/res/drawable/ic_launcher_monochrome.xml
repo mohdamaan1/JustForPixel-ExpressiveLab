@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer Expressive Rings -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:pathData="M 54, 28 A 26,26 0 1,1 53.99, 28" />
+
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"
+        android:pathData="M 54, 33 A 21,21 0 1,1 53.99, 33" />
+
+    <!-- Center Squircle with Cutout Play Triangle for Dynamic Themed Icons -->
+    <path
+        android:fillColor="#000000"
+        android:fillType="evenOdd"
+        android:pathData="M 43,41 h 22 a 8,8 0 0 1 8,8 v 10 a 8,8 0 0 1 -8,8 h -22 a 8,8 0 0 1 -8,-8 v -10 a 8,8 0 0 1 8,-8 z M 50,48 L 60,54 L 50,60 Z" />
+
+</vector>
