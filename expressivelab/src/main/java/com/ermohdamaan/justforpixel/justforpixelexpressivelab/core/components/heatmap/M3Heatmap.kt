@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.LocalFireDepartment
@@ -41,7 +42,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +54,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.theme.ShapeCache
 import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.theme.TactileMotionTokens
+
+/**
+ * Enum defining customizable expressive tile geometries for [M3Heatmap].
+ *
+ * @author Er. Mohd Amaan
+ */
+enum class HeatmapTileShape {
+    /** Smooth squircle curvature (60% smoothness) */
+    Squircle,
+    /** Organic pill pebble shape */
+    PebblePill,
+    /** Rotated diamond squircle geometry */
+    Diamond,
+    /** Radiant circular glow tile */
+    GlowCircle
+}
 
 /**
  * Data model for an individual cell in the [M3Heatmap] grid.
@@ -104,10 +124,12 @@ object HeatmapDefaults {
 }
 
 /**
- * Individual Activity Heatmap Cell Tile with bouncy spring physics & interactive tooltips.
+ * Individual Activity Heatmap Cell Tile with customizable expressive shape geometries,
+ * radiant intensity glow effects, bouncy spring physics & interactive tooltips.
  *
  * @param day Data entry for this cell
  * @param isSelected Whether cell is currently selected/tapped
+ * @param tileShape Custom [HeatmapTileShape] geometry option
  * @param onClick Triggered when cell is tapped
  * @param modifier Custom modifier
  *
@@ -117,6 +139,7 @@ object HeatmapDefaults {
 fun M3HeatmapCell(
     day: HeatmapDayData,
     isSelected: Boolean,
+    tileShape: HeatmapTileShape = HeatmapTileShape.Squircle,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -128,19 +151,27 @@ fun M3HeatmapCell(
     val scale by animateFloatAsState(
         targetValue = when {
             isPressed -> TactileMotionTokens.PRESS_SCALE_FAB
-            isSelected -> 1.25f
+            isSelected -> 1.30f
             else -> 1.0f
         },
         animationSpec = TactileMotionTokens.bouncySpring(),
         label = "HeatmapCellScale"
     )
 
-    // Intensity color resolution based on Material 3 color scheme
+    // Resolve tile shape geometry
+    val resolvedShape: Shape = when (tileShape) {
+        HeatmapTileShape.Squircle -> ShapeCache.smooth8
+        HeatmapTileShape.PebblePill -> RoundedCornerShape(10.dp)
+        HeatmapTileShape.Diamond -> RoundedCornerShape(4.dp)
+        HeatmapTileShape.GlowCircle -> CircleShape
+    }
+
+    // Material 3 Expressive Color Gradient & Tinting
     val baseTileColor = when (day.level) {
-        0 -> MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.35f)
-        1 -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f)
-        2 -> MaterialTheme.colorScheme.primaryContainer
-        3 -> MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)
+        0 -> MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.30f)
+        1 -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.50f)
+        2 -> MaterialTheme.colorScheme.secondary
+        3 -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.primary
     }
 
@@ -151,10 +182,16 @@ fun M3HeatmapCell(
     )
 
     val borderColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.secondary else Color.Transparent,
+        targetValue = when {
+            isSelected -> MaterialTheme.colorScheme.secondary
+            day.level == 4 -> MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f)
+            else -> Color.Transparent
+        },
         animationSpec = TactileMotionTokens.gentleSpring(),
         label = "HeatmapCellBorder"
     )
+
+    val isPeakDay = day.level == 4
 
     Box(
         modifier = modifier
@@ -162,10 +199,16 @@ fun M3HeatmapCell(
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
+                if (tileShape == HeatmapTileShape.Diamond) {
+                    rotationZ = 45f
+                }
             }
-            .size(18.dp)
-            .clip(ShapeCache.smooth8)
-            .border(1.5.dp, borderColor, ShapeCache.smooth8)
+            .size(17.dp)
+            .then(
+                if (isPeakDay) Modifier.shadow(4.dp, resolvedShape) else Modifier
+            )
+            .clip(resolvedShape)
+            .border(1.5.dp, borderColor, resolvedShape)
             .background(tileColor)
             .clickable(
                 interactionSource = interactionSource,
@@ -181,14 +224,18 @@ fun M3HeatmapCell(
 /**
  * Material 3 Expressive Contribution & Activity Heatmap Component.
  *
- * Displays a responsive grid of weekly activity columns (like GitHub streak grid or Pomodoro heatmaps).
- * Tapping any tile triggers an interactive tooltip card with date & activity stats.
+ * Features:
+ * - 4 Expressive Tile Shape Geometries ([HeatmapTileShape.Squircle], [HeatmapTileShape.PebblePill], [HeatmapTileShape.Diamond], [HeatmapTileShape.GlowCircle]).
+ * - Peak Day Radiant Glow Effects with elevation depth.
+ * - Interactive Streak Summary Fire Badge & Date Tooltip Cards.
+ * - Responsive 100% original weekly column layout.
  *
  * @param weeksData Matrix of weekly data columns (each column containing 7 days)
  * @param modifier Custom modifier
  * @param title Header title string
  * @param currentStreak Current streak count in days
  * @param totalContributions Total overall activity sum
+ * @param tileShape Choice of [HeatmapTileShape] for cell rendering
  *
  * @author Er. Mohd Amaan
  */
@@ -198,7 +245,8 @@ fun M3Heatmap(
     modifier: Modifier = Modifier,
     title: String = "Activity Heatmap",
     currentStreak: Int = 12,
-    totalContributions: Int = 348
+    totalContributions: Int = 348,
+    tileShape: HeatmapTileShape = HeatmapTileShape.Squircle
 ) {
     var selectedDay by remember { mutableStateOf<HeatmapDayData?>(null) }
     val dayLabels = listOf("M", "T", "W", "T", "F", "S", "S")
@@ -294,6 +342,7 @@ fun M3Heatmap(
                             M3HeatmapCell(
                                 day = dayData,
                                 isSelected = selectedDay == dayData,
+                                tileShape = tileShape,
                                 onClick = {
                                     selectedDay = if (selectedDay == dayData) null else dayData
                                 }
@@ -375,9 +424,8 @@ fun M3Heatmap(
             Spacer(modifier = Modifier.width(6.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                 Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.35f)))
-                Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f)))
-                Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.primaryContainer))
-                Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)))
+                Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.50f)))
+                Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.secondary))
                 Box(Modifier.size(10.dp).clip(ShapeCache.smooth8).background(MaterialTheme.colorScheme.primary))
             }
             Spacer(modifier = Modifier.width(6.dp))

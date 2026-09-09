@@ -87,6 +87,8 @@ enum class AppScreen {
     COLOR_PICKER_DETAIL,
     TOOLBAR_DETAIL,
     HEATMAP_DETAIL,
+    WAVY_CARD_DETAIL,
+    LIVE_NOTIFICATION_DETAIL,
     PUSH_DETAIL,
     MORPH_DETAIL,
     FLOATING_BAR_DETAIL,
@@ -135,6 +137,8 @@ fun ExpressiveSplashScreenContainer() {
                             "material_you_picker" -> currentScreen = AppScreen.COLOR_PICKER_DETAIL
                             "expressive_toolbar" -> currentScreen = AppScreen.TOOLBAR_DETAIL
                             "m3_heatmap" -> currentScreen = AppScreen.HEATMAP_DETAIL
+                            "wavy_progress_card" -> currentScreen = AppScreen.WAVY_CARD_DETAIL
+                            "live_notification" -> currentScreen = AppScreen.LIVE_NOTIFICATION_DETAIL
                             "push_buttons" -> currentScreen = AppScreen.PUSH_DETAIL
                             "morph_buttons" -> currentScreen = AppScreen.MORPH_DETAIL
                             "floating_bar" -> currentScreen = AppScreen.FLOATING_BAR_DETAIL
@@ -163,6 +167,16 @@ fun ExpressiveSplashScreenContainer() {
             }
             AppScreen.HEATMAP_DETAIL -> {
                 M3HeatmapDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.WAVY_CARD_DETAIL -> {
+                WavyProgressCardDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.LIVE_NOTIFICATION_DETAIL -> {
+                ExpressiveLiveNotificationDetailScreen(
                     onBackClick = { currentScreen = AppScreen.HOME }
                 )
             }

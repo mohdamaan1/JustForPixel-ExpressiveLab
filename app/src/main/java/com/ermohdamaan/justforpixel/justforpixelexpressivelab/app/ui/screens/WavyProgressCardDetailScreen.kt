@@ -8,7 +8,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +32,6 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -43,19 +41,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -63,19 +62,17 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.components.heatmap.HeatmapDefaults
-import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.components.heatmap.HeatmapTileShape
-import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.components.heatmap.M3Heatmap
+import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.components.cards.WavyProgressCard
+import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.components.cards.WavyProgressCardStats
 import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.theme.ShapeCache
 import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.theme.TactileMotionTokens
 
 /**
- * Interactive Playground Detail Screen for M3 Activity Heatmap Grid Component.
+ * Interactive Playground Detail Screen for Expressive [WavyProgressCard].
  *
  * Features:
- * - Live Contribution Heatmap Grid with streak statistics.
- * - 4 Selectable Expressive Tile Shapes (Squircle, PebblePill, Diamond, GlowCircle).
- * - Randomize data generator button.
+ * - Live Progress Card with play/pause wave animation toggle.
+ * - Interactive slider to test progress values.
  * - Architecture & Design Specs Explanation Card.
  * - Source Code Viewer with Copy to Clipboard.
  *
@@ -83,35 +80,45 @@ import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.theme.Tactile
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun M3HeatmapDetailScreen(
+fun WavyProgressCardDetailScreen(
     onBackClick: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val hapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
 
-    // Heatmap State Data
-    var sampleWeeksData by remember { mutableStateOf(HeatmapDefaults.generateSampleData(18)) }
-    var streakCount by remember { mutableStateOf(14) }
-    var activeTileShape by remember { mutableStateOf(HeatmapTileShape.Squircle) }
+    // Playground States
+    var progressVal by remember { mutableFloatStateOf(0.78f) }
+    var isTimerRunning by remember { mutableStateOf(true) }
 
     var showSourceCode by remember { mutableStateOf(false) }
     var isCodeCopied by remember { mutableStateOf(false) }
 
+    val computedStats = WavyProgressCardStats(
+        currentProgress = progressVal,
+        progressPercentage = "${(progressVal * 100).toInt()}%",
+        primaryStatLabel = String.format("%.1f / 8.0 Hrs", progressVal * 8.0f),
+        targetStatLabel = "Goal: 8.0 Hrs",
+        remainingStatLabel = String.format("%.1f Hrs Left", (1f - progressVal) * 8.0f)
+    )
+
     val sampleCode = """
-// M3 Activity Contribution Heatmap Integration
+// Expressive Wavy Progress Dashboard Card
 // Author: Er. Mohd Amaan
 
-// 1. Generate Activity Heatmap Data Matrix
-val weeksData = HeatmapDefaults.generateSampleData(weeksCount = 16)
+var isRunning by remember { mutableStateOf(true) }
 
-// 2. Render Expressive Heatmap Component with Custom Tile Shape
-M3Heatmap(
-    weeksData = weeksData,
-    title = "Pomodoro & Activity Grid",
-    currentStreak = 14,
-    totalContributions = 382,
-    tileShape = HeatmapTileShape.Squircle // Squircle, PebblePill, Diamond, GlowCircle
+WavyProgressCard(
+    title = "Daily Focus Progress",
+    subtitle = "Pomodoro Session Output",
+    stats = WavyProgressCardStats(
+        currentProgress = 0.78f,
+        progressPercentage = "78%",
+        primaryStatLabel = "6.2 / 8.0 Hrs",
+        remainingStatLabel = "1.8 Hrs Left"
+    ),
+    isRunning = isRunning,
+    onPlayPauseClick = { isRunning = !isRunning }
 )
 """.trimIndent()
 
@@ -125,12 +132,12 @@ M3Heatmap(
                 title = {
                     Column {
                         Text(
-                            text = "M3 Activity Heatmap",
+                            text = "Expressive Wavy Progress Card",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold
                         )
                         Text(
-                            text = "Contribution & Streak Grid",
+                            text = "CircularWavyProgress + Stats Grid",
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
@@ -204,65 +211,37 @@ M3Heatmap(
 
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    // Tile Shape Geometry Selector
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(ShapeCache.smoothPill)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .padding(4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        ShapeSelectorButton("Squircle", activeTileShape == HeatmapTileShape.Squircle) {
-                            hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
-                            activeTileShape = HeatmapTileShape.Squircle
-                        }
-                        ShapeSelectorButton("Pebble", activeTileShape == HeatmapTileShape.PebblePill) {
-                            hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
-                            activeTileShape = HeatmapTileShape.PebblePill
-                        }
-                        ShapeSelectorButton("Diamond", activeTileShape == HeatmapTileShape.Diamond) {
-                            hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
-                            activeTileShape = HeatmapTileShape.Diamond
-                        }
-                        ShapeSelectorButton("Glow", activeTileShape == HeatmapTileShape.GlowCircle) {
-                            hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
-                            activeTileShape = HeatmapTileShape.GlowCircle
-                        }
-                    }
-
-                    // Live Heatmap Component
-                    M3Heatmap(
-                        weeksData = sampleWeeksData,
-                        title = "Focus Activity Heatmap",
-                        currentStreak = streakCount,
-                        totalContributions = sampleWeeksData.flatten().sumOf { it.count },
-                        tileShape = activeTileShape
+                    // Live Wavy Progress Card
+                    WavyProgressCard(
+                        title = "Daily Focus Dashboard",
+                        subtitle = "Target Session Progress",
+                        stats = computedStats,
+                        isRunning = isTimerRunning,
+                        onPlayPauseClick = { isTimerRunning = !isTimerRunning }
                     )
 
-                    // Randomize Data Button
-                    Button(
-                        onClick = {
-                            hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
-                            sampleWeeksData = HeatmapDefaults.generateSampleData(18)
-                            streakCount = (5..30).random()
-                        },
-                        shape = ShapeCache.smoothPill,
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary
-                        )
+                    // Interactive Slider Control
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                        ),
+                        shape = ShapeCache.smooth16,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Refresh,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Randomize Activity Grid",
-                            fontWeight = FontWeight.Bold
-                        )
+                        Column(modifier = Modifier.padding(14.dp)) {
+                            Text(
+                                text = "Adjust Live Progress: ${(progressVal * 100).toInt()}%",
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Slider(
+                                value = progressVal,
+                                onValueChange = { progressVal = it },
+                                valueRange = 0.05f..1.0f
+                            )
+                        }
                     }
                 }
             }
@@ -299,17 +278,17 @@ M3Heatmap(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Expressive Heatmap Specs",
+                                text = "Expressive Design Specs",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
                             )
                         }
 
                         Text(
-                            text = "• 4 Selectable tile geometries (Squircle, Pebble, Diamond, Glow)\n" +
-                                    "• Peak day radiant glow effect with tonal elevation shadows\n" +
-                                    "• Material 3 5-tier intensity color mapping (Level 0..4)\n" +
-                                    "• Responsive weekly columns with day labels & date tooltips",
+                            text = "• Hero CircularWavyProgressIndicator ring with animated wave amplitude\n" +
+                                    "• 3-metric stats grid footer displaying completed vs remaining goals\n" +
+                                    "• Tactile play/pause control button with haptic feedback\n" +
+                                    "• Container wrapped in smooth squircle (ShapeCache.smooth20) card",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             lineHeight = 18.sp
@@ -385,7 +364,7 @@ M3Heatmap(
                                     IconButton(
                                         onClick = {
                                             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                            val clip = ClipData.newPlainText("M3Heatmap Code", sampleCode)
+                                            val clip = ClipData.newPlainText("WavyProgressCard Code", sampleCode)
                                             clipboard.setPrimaryClip(clip)
                                             isCodeCopied = true
                                             Toast.makeText(context, "Code copied to clipboard!", Toast.LENGTH_SHORT).show()
@@ -424,28 +403,5 @@ M3Heatmap(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun ShapeSelectorButton(
-    label: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Surface(
-        shape = ShapeCache.smoothPill,
-        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-        modifier = Modifier
-            .clip(ShapeCache.smoothPill)
-            .clickable(onClick = onClick)
-    ) {
-        Text(
-            text = label,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
-        )
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.material.icons.rounded.Equalizer
 import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material.icons.rounded.Navigation
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.SmartButton
@@ -165,6 +166,24 @@ private fun CatalogGridView(
             icon = Icons.Rounded.GridOn,
             badgeBgColor = MaterialTheme.colorScheme.secondaryContainer,
             badgeIconColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
+        ComponentCategory(
+            id = "wavy_progress_card",
+            title = "Wavy Progress Dashboard Card",
+            description = "CircularWavyProgressIndicator ring combined with 3-metric stats grid & timer controls",
+            countText = "NEW • Dashboard Card",
+            icon = Icons.Rounded.RadioButtonChecked,
+            badgeBgColor = MaterialTheme.colorScheme.primaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        ComponentCategory(
+            id = "live_notification",
+            title = "Android 16 Live Activity Notifications",
+            description = "Promoted status bar chip & ongoing foreground service activity notifications",
+            countText = "NEW • Live Service",
+            icon = Icons.Rounded.Notifications,
+            badgeBgColor = MaterialTheme.colorScheme.tertiaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onTertiaryContainer
         ),
         ComponentCategory(
             id = "push_buttons",

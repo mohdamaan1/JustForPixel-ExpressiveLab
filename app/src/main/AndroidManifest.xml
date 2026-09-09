@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions required for Android 16 Promoted Live Activity & Status Bar Chip Notifications -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JustForPixelExpressiveLab">
+
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode|colorMode|orientation|screenSize|screenLayout|smallestScreenSize"
@@ -24,6 +31,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.notifications.ExpressiveLiveNotificationService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Live Update Notification Service" />
+        </service>
+
+        <service
+            android:name="com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.notifications.ExpressiveSplitJourneyNotificationService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Live Update Split Journey Notification Service" />
+        </service>
+
     </application>
 
 </manifest>
