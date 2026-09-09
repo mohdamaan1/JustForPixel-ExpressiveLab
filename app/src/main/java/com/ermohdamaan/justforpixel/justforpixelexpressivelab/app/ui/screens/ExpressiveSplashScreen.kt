@@ -84,6 +84,9 @@ import racra.compose.smooth_corner_rect_library.AbsoluteSmoothCornerShape
 enum class AppScreen {
     SPLASH,
     HOME,
+    COLOR_PICKER_DETAIL,
+    TOOLBAR_DETAIL,
+    HEATMAP_DETAIL,
     PUSH_DETAIL,
     MORPH_DETAIL,
     FLOATING_BAR_DETAIL,
@@ -129,6 +132,9 @@ fun ExpressiveSplashScreenContainer() {
                 ComponentCategoryHomeScreen(
                     onCategorySelected = { categoryId ->
                         when (categoryId) {
+                            "material_you_picker" -> currentScreen = AppScreen.COLOR_PICKER_DETAIL
+                            "expressive_toolbar" -> currentScreen = AppScreen.TOOLBAR_DETAIL
+                            "m3_heatmap" -> currentScreen = AppScreen.HEATMAP_DETAIL
                             "push_buttons" -> currentScreen = AppScreen.PUSH_DETAIL
                             "morph_buttons" -> currentScreen = AppScreen.MORPH_DETAIL
                             "floating_bar" -> currentScreen = AppScreen.FLOATING_BAR_DETAIL
@@ -143,6 +149,21 @@ fun ExpressiveSplashScreenContainer() {
                             else -> currentScreen = AppScreen.HOME
                         }
                     }
+                )
+            }
+            AppScreen.COLOR_PICKER_DETAIL -> {
+                MaterialYouPickerDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.TOOLBAR_DETAIL -> {
+                ExpressiveToolbarDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.HEATMAP_DETAIL -> {
+                M3HeatmapDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
                 )
             }
             AppScreen.PUSH_DETAIL -> {

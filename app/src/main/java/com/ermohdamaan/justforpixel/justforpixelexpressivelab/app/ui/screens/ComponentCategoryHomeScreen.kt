@@ -33,7 +33,9 @@ import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Equalizer
 import androidx.compose.material.icons.rounded.GraphicEq
+import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material.icons.rounded.Navigation
+import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.SmartButton
 import androidx.compose.material.icons.rounded.Style
@@ -137,6 +139,33 @@ private fun CatalogGridView(
     val hapticFeedback = LocalHapticFeedback.current
 
     val categories = listOf(
+        ComponentCategory(
+            id = "material_you_picker",
+            title = "Material You Color Picker",
+            description = "Monet dynamic color toggle & Expressive seed palette swatch selector",
+            countText = "NEW • 2 Variants",
+            icon = Icons.Rounded.Palette,
+            badgeBgColor = MaterialTheme.colorScheme.primaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        ComponentCategory(
+            id = "expressive_toolbar",
+            title = "Expressive Floating Toolbar",
+            description = "Floating pill container wrapper combining HorizontalToolbar + ToggleButtons",
+            countText = "NEW • 2 Presets",
+            icon = Icons.Rounded.Navigation,
+            badgeBgColor = MaterialTheme.colorScheme.tertiaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onTertiaryContainer
+        ),
+        ComponentCategory(
+            id = "m3_heatmap",
+            title = "M3 Activity Heatmap",
+            description = "Expressive contribution grid with streak counter & inspection tooltips",
+            countText = "NEW • Grid View",
+            icon = Icons.Rounded.GridOn,
+            badgeBgColor = MaterialTheme.colorScheme.secondaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
         ComponentCategory(
             id = "push_buttons",
             title = "Elastic Push Controls",
@@ -461,15 +490,16 @@ private fun CatalogGridView(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.End
                                 ) {
+                                    val isNewItem = category.countText.contains("NEW")
                                     Surface(
                                         shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+                                        color = if (isNewItem) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
                                     ) {
                                         Text(
                                             text = category.countText,
                                             style = MaterialTheme.typography.labelSmall,
                                             fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary,
+                                            color = if (isNewItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                                             fontSize = 11.5.sp,
                                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
                                         )
