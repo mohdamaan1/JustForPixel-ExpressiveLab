@@ -22,8 +22,10 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -31,6 +33,7 @@ import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Code
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Equalizer
 import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material.icons.rounded.GridOn
@@ -38,6 +41,7 @@ import androidx.compose.material.icons.rounded.Navigation
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.RadioButtonChecked
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.SmartButton
 import androidx.compose.material.icons.rounded.Style
 import androidx.compose.material.icons.rounded.Sync
@@ -57,6 +61,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -103,9 +108,10 @@ data class ComponentCategory(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComponentCategoryHomeScreen(
-    onCategorySelected: (String) -> Unit
+    onCategorySelected: (String) -> Unit,
+    catalogLazyGridState: LazyGridState = rememberLazyGridState()
 ) {
-    var selectedBottomTab by remember { mutableIntStateOf(0) } // 0 = Catalog, 1 = Settings
+    var selectedBottomTab by rememberSaveable { mutableIntStateOf(0) } // 0 = Catalog, 1 = Settings
 
     Box(modifier = Modifier.fillMaxSize()) {
         AnimatedContent(
@@ -116,7 +122,10 @@ fun ComponentCategoryHomeScreen(
             label = "FastTabTransition"
         ) { tab ->
             if (tab == 0) {
-                CatalogGridView(onCategorySelected = onCategorySelected)
+                CatalogGridView(
+                    lazyGridState = catalogLazyGridState,
+                    onCategorySelected = onCategorySelected
+                )
             } else {
                 AppSettingsScreen()
             }
@@ -134,6 +143,7 @@ fun ComponentCategoryHomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CatalogGridView(
+    lazyGridState: LazyGridState = rememberLazyGridState(),
     onCategorySelected: (String) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -184,6 +194,42 @@ private fun CatalogGridView(
             icon = Icons.Rounded.Notifications,
             badgeBgColor = MaterialTheme.colorScheme.tertiaryContainer,
             badgeIconColor = MaterialTheme.colorScheme.onTertiaryContainer
+        ),
+        ComponentCategory(
+            id = "pull_to_refresh",
+            title = "Elastic Pull-To-Refresh",
+            description = "Gesture-driven liquid wavy pull container with rubber-band damping physics",
+            countText = "NEW • Liquid Wave",
+            icon = Icons.Rounded.Refresh,
+            badgeBgColor = MaterialTheme.colorScheme.secondaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
+        ComponentCategory(
+            id = "swipe_to_dismiss",
+            title = "Elastic Swipe-To-Dismiss",
+            description = "Swipeable card row with morphing action icons, rubber-band physics & undo hook",
+            countText = "NEW • Morph Actions",
+            icon = Icons.Rounded.Delete,
+            badgeBgColor = MaterialTheme.colorScheme.primaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        ComponentCategory(
+            id = "expandable_fab",
+            title = "Expandable Speed Dial FAB",
+            description = "Hero FAB morphing from Squircle to expanded speed dial action cluster & pill bar",
+            countText = "NEW • Speed Dial",
+            icon = Icons.Rounded.SmartButton,
+            badgeBgColor = MaterialTheme.colorScheme.tertiaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onTertiaryContainer
+        ),
+        ComponentCategory(
+            id = "glassmorphism_card",
+            title = "Material 3 Glassmorphism Card",
+            description = "Official M3 Card + Material You dynamic frost gradient overlay & backdrop blur",
+            countText = "NEW • M3 Glass",
+            icon = Icons.Rounded.Style,
+            badgeBgColor = MaterialTheme.colorScheme.secondaryContainer,
+            badgeIconColor = MaterialTheme.colorScheme.onSecondaryContainer
         ),
         ComponentCategory(
             id = "push_buttons",
@@ -331,7 +377,7 @@ private fun CatalogGridView(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "v1.0.0",
+                                text = "v1.1.0",
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -383,7 +429,7 @@ private fun CatalogGridView(
                             .padding(10.dp)
                     ) {
                         Text(
-                            text = "implementation(\"com.github.ermohdamaan:expressivelab:1.0.0\")",
+                            text = "implementation(\"com.github.ermohdamaan:expressivelab:1.1.0\")",
                             fontFamily = FontFamily.Monospace,
                             fontSize = 10.5.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -406,6 +452,7 @@ private fun CatalogGridView(
 
             // Category List with Numbering OUTSIDE the Cards & Full Un-truncated Titles
             LazyVerticalGrid(
+                state = lazyGridState,
                 columns = GridCells.Fixed(1),
                 contentPadding = PaddingValues(
                     start = 16.dp,
@@ -416,7 +463,7 @@ private fun CatalogGridView(
                 modifier = Modifier.fillMaxSize()
             ) {
                 itemsIndexed(categories) { index, category ->
-                    val numberTag = String.format("%02d", index + 1)
+                    val numberTag = if (index + 1 < 10) "0${index + 1}" else "${index + 1}"
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

@@ -616,7 +616,7 @@ fun AppSettingsScreen() {
                                     .clickable {
                                         hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
                                         clipboardManager.setText(
-                                            AnnotatedString("implementation(\"com.github.ermohdamaan:expressivelab:1.0.0\")")
+                                            AnnotatedString("implementation(\"com.github.ermohdamaan:expressivelab:1.1.0\")")
                                         )
                                         isDependencyCopied = true
                                         coroutineScope.launch {
@@ -656,7 +656,7 @@ fun AppSettingsScreen() {
                                 .padding(12.dp)
                         ) {
                             Text(
-                                text = "implementation(\"com.github.ermohdamaan:expressivelab:1.0.0\")",
+                                text = "implementation(\"com.github.ermohdamaan:expressivelab:1.1.0\")",
                                 fontFamily = FontFamily.Monospace,
                                 fontSize = 11.5.sp,
                                 fontWeight = FontWeight.SemiBold,

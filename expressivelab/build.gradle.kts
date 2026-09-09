@@ -62,7 +62,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.ermohdamaan"
                 artifactId = "expressivelab"
-                version = "1.0.0"
+                version = "1.1.0"
             }
         }
     }

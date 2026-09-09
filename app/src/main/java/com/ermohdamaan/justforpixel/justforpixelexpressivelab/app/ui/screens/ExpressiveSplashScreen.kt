@@ -47,6 +47,7 @@ import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.Surface
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Text
 import androidx.compose.material3.WavyProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
@@ -57,6 +58,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
@@ -89,6 +92,10 @@ enum class AppScreen {
     HEATMAP_DETAIL,
     WAVY_CARD_DETAIL,
     LIVE_NOTIFICATION_DETAIL,
+    PULL_REFRESH_DETAIL,
+    SWIPE_DISMISS_DETAIL,
+    EXPANDABLE_FAB_DETAIL,
+    GLASSMORPHISM_DETAIL,
     PUSH_DETAIL,
     MORPH_DETAIL,
     FLOATING_BAR_DETAIL,
@@ -139,6 +146,10 @@ fun ExpressiveSplashScreenContainer() {
                             "m3_heatmap" -> currentScreen = AppScreen.HEATMAP_DETAIL
                             "wavy_progress_card" -> currentScreen = AppScreen.WAVY_CARD_DETAIL
                             "live_notification" -> currentScreen = AppScreen.LIVE_NOTIFICATION_DETAIL
+                            "pull_to_refresh" -> currentScreen = AppScreen.PULL_REFRESH_DETAIL
+                            "swipe_to_dismiss" -> currentScreen = AppScreen.SWIPE_DISMISS_DETAIL
+                            "expandable_fab" -> currentScreen = AppScreen.EXPANDABLE_FAB_DETAIL
+                            "glassmorphism_card" -> currentScreen = AppScreen.GLASSMORPHISM_DETAIL
                             "push_buttons" -> currentScreen = AppScreen.PUSH_DETAIL
                             "morph_buttons" -> currentScreen = AppScreen.MORPH_DETAIL
                             "floating_bar" -> currentScreen = AppScreen.FLOATING_BAR_DETAIL
@@ -177,6 +188,26 @@ fun ExpressiveSplashScreenContainer() {
             }
             AppScreen.LIVE_NOTIFICATION_DETAIL -> {
                 ExpressiveLiveNotificationDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.PULL_REFRESH_DETAIL -> {
+                ExpressivePullToRefreshDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.SWIPE_DISMISS_DETAIL -> {
+                ExpressiveSwipeToDismissDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.EXPANDABLE_FAB_DETAIL -> {
+                ExpressiveExpandableFabDetailScreen(
+                    onBackClick = { currentScreen = AppScreen.HOME }
+                )
+            }
+            AppScreen.GLASSMORPHISM_DETAIL -> {
+                ExpressiveGlassmorphismDetailScreen(
                     onBackClick = { currentScreen = AppScreen.HOME }
                 )
             }

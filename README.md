@@ -15,7 +15,7 @@
 ## 📌 Executive Project Vision & Overview
 **JustForPixel ExpressiveLab** is a high-performance, open-source **Material 3 Expressive UI & Motion Component Library** for Jetpack Compose, architected and maintained by **Er. Mohd Amaan** (`justforpixel`).
 
-It provides a rich set of tactile, bouncy spring-animated UI components, organic squircle shape geometries (`AbsoluteSmoothCornerShape`), oscillating wavy sliders, expanding floating navigation bars, Google Material 3 Expressive loading spinners, and audio visualizers ready for production Android apps.
+It provides a rich set of tactile, bouncy spring-animated UI components, organic squircle shape geometries (`AbsoluteSmoothCornerShape`), oscillating wavy sliders, expanding floating navigation bars, Google Material 3 Expressive loading spinners, audio visualizers, Glassmorphism cards, Swipe-to-Dismiss cards, Expandable FABs, Pull-to-Refresh indicators, and Live Notifications ready for production Android apps.
 
 ---
 
@@ -23,12 +23,12 @@ It provides a rich set of tactile, bouncy spring-animated UI components, organic
 
 ```
 JustForPixel ExpressiveLab Root
- ├── 📦 :expressivelab  ---> Android Library Module (com.github.ermohdamaan:expressivelab:1.0.0)
- │    ├── 🧩 components/  (Push Buttons, Morphing Icons, Wavy Sliders, Floating Bars, Progress, Rings, Equalizers, Cards)
+ ├── 📦 :expressivelab  ---> Android Library Module (com.github.ermohdamaan:expressivelab:1.1.0)
+ │    ├── 🧩 components/  (Push Buttons, Morphing Icons, Wavy Sliders, Floating Bars, Progress, Rings, Equalizers, Cards, Glassmorphism, Expandable FAB, PullRefresh, Live Notifications, Heatmap)
  │    └── 🎨 theme/       (TactileMotionTokens, AbsoluteSmoothCornerShape, ExpressiveColorScheme)
  └── 📱 :app            ---> Flagship Interactive Showcase Application (com.ermohdamaan.justforpixel.justforpixelexpressivelab.app)
       ├── 🎬 Splash      (Shape-Morphing Progress & Intro)
-      ├── 📑 Catalog     (Interactive Grid with 10 Component Playground Categories)
+      ├── 📑 Catalog     (Interactive Grid with 16 Component Playground Categories)
       └── ⚙️ Settings    (Theme Mode, Pure OLED Black #000000, Copy Dependency, Haptics)
 ```
 
@@ -57,7 +57,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     // JustForPixel ExpressiveLab Material 3 Expressive Component Library
-    implementation("com.github.ermohdamaan:expressivelab:1.0.0")
+    implementation("com.github.ermohdamaan:expressivelab:1.1.0")
 
     // Compose Material 3 Expressive BOM
     implementation(platform("androidx.compose:compose-bom:2026.02.01"))
@@ -132,41 +132,29 @@ ExpressiveWavySlider(
 
 ---
 
-### 5. Shape-Morph Loading Indicators (`ExpressiveShapeMorphLoadingIndicator`)
-Continuous shape interpolation (Circle ⇄ Squircle ⇄ Pill) combined with 360° spin rotation for expressive loading states.
+### 5. Glassmorphism Card & Swipe-to-Dismiss (`ExpressiveGlassmorphismCard`, `ExpressiveSwipeToDismissCard`)
+Frosted glass blur effect with spring physics dismiss actions and tactile haptic feedback.
 
 ```kotlin
-ExpressiveShapeMorphLoadingIndicator(
-    modifier = Modifier.size(64.dp),
-    color = MaterialTheme.colorScheme.primary
-)
-```
-
----
-
-### 6. Audio Frequency Equalizer Bar (`PlayingEqIcon`)
-Jumping frequency bar icon that smoothly interpolates between animated audio bars and static paused dots.
-
-```kotlin
-PlayingEqIcon(
-    isPlaying = true,
-    modifier = Modifier.size(28.dp),
-    color = MaterialTheme.colorScheme.primary
-)
-```
-
----
-
-### 7. Bouncy Squircle Card (`ExpressiveCard`)
-Tactile press elevation physics with continuous curvature squircle geometry (`AbsoluteSmoothCornerShape`).
-
-```kotlin
-ExpressiveCard(
-    onClick = { /* Card tap action */ },
+ExpressiveGlassmorphismCard(
     modifier = Modifier.fillMaxWidth()
 ) {
-    Text(text = "Tactile Squircle Card")
+    Text(text = "Glassmorphism Frosted Card")
 }
+```
+
+---
+
+### 6. Expressive Expandable FAB (`ExpressiveExpandableFab`) & Pull-to-Refresh (`ExpressivePullToRefreshContainer`)
+Morphing FAB expansion and custom wavy pull-to-refresh indicators.
+
+```kotlin
+ExpressiveExpandableFab(
+    expanded = isFabExpanded,
+    onClick = { isFabExpanded = !isFabExpanded },
+    icon = Icons.Rounded.Add,
+    text = "New Post"
+)
 ```
 
 ---
