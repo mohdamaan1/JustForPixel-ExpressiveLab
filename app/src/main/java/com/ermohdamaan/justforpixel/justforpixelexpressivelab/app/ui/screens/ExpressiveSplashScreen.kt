@@ -119,7 +119,9 @@ enum class AppScreen {
  */
 @Composable
 fun ExpressiveSplashScreenContainer() {
-    var currentScreen by remember { mutableStateOf(AppScreen.SPLASH) }
+    var currentScreen by rememberSaveable { mutableStateOf(AppScreen.SPLASH) }
+    val catalogLazyGridState = rememberLazyGridState()
+    val saveableStateHolder = rememberSaveableStateHolder()
 
     // Er. Mohd Amaan - Intercept Android System Back Gesture / Hardware Back Button on all detail screens
     BackHandler(enabled = currentScreen != AppScreen.HOME && currentScreen != AppScreen.SPLASH) {
@@ -131,140 +133,143 @@ fun ExpressiveSplashScreenContainer() {
         animationSpec = tween(350),
         label = "AppNavigationCrossfade"
     ) { screen ->
-        when (screen) {
-            AppScreen.SPLASH -> {
-                ExpressiveSplashScreen(
-                    onSplashFinished = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.HOME -> {
-                ComponentCategoryHomeScreen(
-                    onCategorySelected = { categoryId ->
-                        when (categoryId) {
-                            "material_you_picker" -> currentScreen = AppScreen.COLOR_PICKER_DETAIL
-                            "expressive_toolbar" -> currentScreen = AppScreen.TOOLBAR_DETAIL
-                            "m3_heatmap" -> currentScreen = AppScreen.HEATMAP_DETAIL
-                            "wavy_progress_card" -> currentScreen = AppScreen.WAVY_CARD_DETAIL
-                            "live_notification" -> currentScreen = AppScreen.LIVE_NOTIFICATION_DETAIL
-                            "pull_to_refresh" -> currentScreen = AppScreen.PULL_REFRESH_DETAIL
-                            "swipe_to_dismiss" -> currentScreen = AppScreen.SWIPE_DISMISS_DETAIL
-                            "expandable_fab" -> currentScreen = AppScreen.EXPANDABLE_FAB_DETAIL
-                            "glassmorphism_card" -> currentScreen = AppScreen.GLASSMORPHISM_DETAIL
-                            "push_buttons" -> currentScreen = AppScreen.PUSH_DETAIL
-                            "morph_buttons" -> currentScreen = AppScreen.MORPH_DETAIL
-                            "floating_bar" -> currentScreen = AppScreen.FLOATING_BAR_DETAIL
-                            "shape_morph_loading" -> currentScreen = AppScreen.SHAPE_MORPH_DETAIL
-                            "organic_shapes" -> currentScreen = AppScreen.ORGANIC_SHAPES_DETAIL
-                            "sliders" -> currentScreen = AppScreen.SLIDERS_DETAIL
-                            "progress" -> currentScreen = AppScreen.PROGRESS_DETAIL
-                            "segmented" -> currentScreen = AppScreen.SEGMENTED_DETAIL
-                            "visualizers" -> currentScreen = AppScreen.EQUALIZER_DETAIL
-                            "cards" -> currentScreen = AppScreen.CARDS_DETAIL
-                            "all_playgrounds" -> currentScreen = AppScreen.SHOWCASE
-                            else -> currentScreen = AppScreen.HOME
+        saveableStateHolder.SaveableStateProvider(key = screen) {
+            when (screen) {
+                AppScreen.SPLASH -> {
+                    ExpressiveSplashScreen(
+                        onSplashFinished = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.HOME -> {
+                    ComponentCategoryHomeScreen(
+                        catalogLazyGridState = catalogLazyGridState,
+                        onCategorySelected = { categoryId ->
+                            when (categoryId) {
+                                "material_you_picker" -> currentScreen = AppScreen.COLOR_PICKER_DETAIL
+                                "expressive_toolbar" -> currentScreen = AppScreen.TOOLBAR_DETAIL
+                                "m3_heatmap" -> currentScreen = AppScreen.HEATMAP_DETAIL
+                                "wavy_progress_card" -> currentScreen = AppScreen.WAVY_CARD_DETAIL
+                                "live_notification" -> currentScreen = AppScreen.LIVE_NOTIFICATION_DETAIL
+                                "pull_to_refresh" -> currentScreen = AppScreen.PULL_REFRESH_DETAIL
+                                "swipe_to_dismiss" -> currentScreen = AppScreen.SWIPE_DISMISS_DETAIL
+                                "expandable_fab" -> currentScreen = AppScreen.EXPANDABLE_FAB_DETAIL
+                                "glassmorphism_card" -> currentScreen = AppScreen.GLASSMORPHISM_DETAIL
+                                "push_buttons" -> currentScreen = AppScreen.PUSH_DETAIL
+                                "morph_buttons" -> currentScreen = AppScreen.MORPH_DETAIL
+                                "floating_bar" -> currentScreen = AppScreen.FLOATING_BAR_DETAIL
+                                "shape_morph_loading" -> currentScreen = AppScreen.SHAPE_MORPH_DETAIL
+                                "organic_shapes" -> currentScreen = AppScreen.ORGANIC_SHAPES_DETAIL
+                                "sliders" -> currentScreen = AppScreen.SLIDERS_DETAIL
+                                "progress" -> currentScreen = AppScreen.PROGRESS_DETAIL
+                                "segmented" -> currentScreen = AppScreen.SEGMENTED_DETAIL
+                                "visualizers" -> currentScreen = AppScreen.EQUALIZER_DETAIL
+                                "cards" -> currentScreen = AppScreen.CARDS_DETAIL
+                                "all_playgrounds" -> currentScreen = AppScreen.SHOWCASE
+                                else -> currentScreen = AppScreen.HOME
+                            }
                         }
-                    }
-                )
-            }
-            AppScreen.COLOR_PICKER_DETAIL -> {
-                MaterialYouPickerDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.TOOLBAR_DETAIL -> {
-                ExpressiveToolbarDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.HEATMAP_DETAIL -> {
-                M3HeatmapDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.WAVY_CARD_DETAIL -> {
-                WavyProgressCardDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.LIVE_NOTIFICATION_DETAIL -> {
-                ExpressiveLiveNotificationDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.PULL_REFRESH_DETAIL -> {
-                ExpressivePullToRefreshDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.SWIPE_DISMISS_DETAIL -> {
-                ExpressiveSwipeToDismissDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.EXPANDABLE_FAB_DETAIL -> {
-                ExpressiveExpandableFabDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.GLASSMORPHISM_DETAIL -> {
-                ExpressiveGlassmorphismDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.PUSH_DETAIL -> {
-                ElasticPushControlsDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.MORPH_DETAIL -> {
-                MorphingButtonDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.FLOATING_BAR_DETAIL -> {
-                FloatingBarDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.SHAPE_MORPH_DETAIL -> {
-                ShapeMorphLoadingDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.ORGANIC_SHAPES_DETAIL -> {
-                OrganicShapesDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.SLIDERS_DETAIL -> {
-                WavySlidersDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.PROGRESS_DETAIL -> {
-                ProgressIndicatorsDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.SEGMENTED_DETAIL -> {
-                SegmentedTogglesDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.EQUALIZER_DETAIL -> {
-                EqualizerDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.CARDS_DETAIL -> {
-                SquircleCardsDetailScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
-            }
-            AppScreen.SHOWCASE -> {
-                ExpressiveShowcaseScreen(
-                    onBackClick = { currentScreen = AppScreen.HOME }
-                )
+                    )
+                }
+                AppScreen.COLOR_PICKER_DETAIL -> {
+                    MaterialYouPickerDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.TOOLBAR_DETAIL -> {
+                    ExpressiveToolbarDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.HEATMAP_DETAIL -> {
+                    M3HeatmapDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.WAVY_CARD_DETAIL -> {
+                    WavyProgressCardDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.LIVE_NOTIFICATION_DETAIL -> {
+                    ExpressiveLiveNotificationDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.PULL_REFRESH_DETAIL -> {
+                    ExpressivePullToRefreshDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.SWIPE_DISMISS_DETAIL -> {
+                    ExpressiveSwipeToDismissDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.EXPANDABLE_FAB_DETAIL -> {
+                    ExpressiveExpandableFabDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.GLASSMORPHISM_DETAIL -> {
+                    ExpressiveGlassmorphismDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.PUSH_DETAIL -> {
+                    ElasticPushControlsDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.MORPH_DETAIL -> {
+                    MorphingButtonDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.FLOATING_BAR_DETAIL -> {
+                    FloatingBarDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.SHAPE_MORPH_DETAIL -> {
+                    ShapeMorphLoadingDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.ORGANIC_SHAPES_DETAIL -> {
+                    OrganicShapesDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.SLIDERS_DETAIL -> {
+                    WavySlidersDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.PROGRESS_DETAIL -> {
+                    ProgressIndicatorsDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.SEGMENTED_DETAIL -> {
+                    SegmentedTogglesDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.EQUALIZER_DETAIL -> {
+                    EqualizerDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.CARDS_DETAIL -> {
+                    SquircleCardsDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.SHOWCASE -> {
+                    ExpressiveShowcaseScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
             }
         }
     }
