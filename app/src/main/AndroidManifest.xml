@@ -13,6 +13,7 @@
         android:theme="@style/Theme.JustForPixelExpressiveLab">
         <activity
             android:name=".MainActivity"
+            android:configChanges="uiMode|colorMode|orientation|screenSize|screenLayout|smallestScreenSize"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.JustForPixelExpressiveLab"
