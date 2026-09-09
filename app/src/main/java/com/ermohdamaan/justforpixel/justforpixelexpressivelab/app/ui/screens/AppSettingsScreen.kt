@@ -33,6 +33,7 @@ import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Gavel
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Person
@@ -81,8 +82,8 @@ import kotlinx.coroutines.launch
 
 /**
  * App Settings & Preferences Screen for ExpressiveLab Application.
- * Includes Theme Mode, OLED Pitch Black, Developer Info, Open Source Rules,
- * Support Email, and Custom Project Inquiries.
+ * Includes Theme Mode, OLED Pitch Black, Developer Info, Sponsor & Funding Options,
+ * Open Source Rules, Support Email, and Custom Project Inquiries.
  *
  * @author Er. Mohd Amaan
  */
@@ -320,7 +321,7 @@ fun AppSettingsScreen() {
                 }
             }
 
-            // 4. DEVELOPER & ABOUT CARD
+            // 4. SPONSOR & SUPPORT EXPRESSIVELAB CARD
             item {
                 Card(
                     shape = RoundedCornerShape(24.dp),
@@ -332,40 +333,96 @@ fun AppSettingsScreen() {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                imageVector = Icons.Rounded.Person,
-                                contentDescription = null,
+                                imageVector = Icons.Rounded.Favorite,
+                                contentDescription = "Sponsor ExpressiveLab",
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.size(28.dp)
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Column {
                                 Text(
-                                    text = "Er. Mohd Amaan (justforpixel)",
+                                    text = "Sponsor & Support ExpressiveLab",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.ExtraBold,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                                 Text(
-                                    text = "Lead Android & Compose Architect",
+                                    text = "By Er. Mohd Amaan (justforpixel)",
                                     style = MaterialTheme.typography.bodySmall,
+                                    fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
                                 )
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
-                            text = "ExpressiveLab M3 is an open-source Android Material 3 Expressive Component & Motion Library crafted with precision and spring physics.",
+                            text = "If ExpressiveLab helped you build expressive Jetpack Compose UIs, consider supporting its open-source development!",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            lineHeight = 20.sp
                         )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            // Buy Me a Coffee Button
+                            Button(
+                                onClick = {
+                                    hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://buymeacoffee.com/justforpixel"))
+                                    try {
+                                        context.startActivity(intent)
+                                    } catch (_: Exception) { }
+                                },
+                                shape = CircleShape,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                ),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = "☕ Buy Me a Coffee",
+                                    fontWeight = FontWeight.ExtraBold,
+                                    style = MaterialTheme.typography.labelLarge,
+                                    fontSize = 12.sp
+                                )
+                            }
+
+                            // GitHub Sponsors Button
+                            Button(
+                                onClick = {
+                                    hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/sponsors/ermohdamaan"))
+                                    try {
+                                        context.startActivity(intent)
+                                    } catch (_: Exception) { }
+                                },
+                                shape = CircleShape,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.primaryContainer
+                                ),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = "💖 GitHub Sponsor",
+                                    fontWeight = FontWeight.ExtraBold,
+                                    style = MaterialTheme.typography.labelLarge,
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
                     }
                 }
             }
 
-            // 5. OPEN SOURCE RULES & MANDATORY CREDIT POLICY
+            // 5. DEVELOPER & ABOUT CARD
             item {
                 Card(
                     shape = RoundedCornerShape(24.dp),
@@ -377,9 +434,54 @@ fun AppSettingsScreen() {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                imageVector = Icons.Rounded.Gavel,
+                                imageVector = Icons.Rounded.Person,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text(
+                                    text = "Er. Mohd Amaan (justforpixel)",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                                Text(
+                                    text = "Lead Android & Compose Architect",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Text(
+                            text = "ExpressiveLab M3 is an open-source Android Material 3 Expressive Component & Motion Library crafted with precision and spring physics.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
+                }
+            }
+
+            // 6. OPEN SOURCE RULES & MANDATORY CREDIT POLICY
+            item {
+                Card(
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(20.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Rounded.Gavel,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(26.dp)
                             )
                             Spacer(modifier = Modifier.width(12.dp))
@@ -387,7 +489,7 @@ fun AppSettingsScreen() {
                                 text = "Open Source Rules & Credit Policy",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.ExtraBold,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
 
@@ -399,14 +501,14 @@ fun AppSettingsScreen() {
                                     "• Unauthorized redistribution without author credit is strictly restricted.",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             lineHeight = 20.sp
                         )
                     }
                 }
             }
 
-            // 6. HIRE US / SUPPORT INQUIRIES
+            // 7. HIRE US / SUPPORT INQUIRIES
             item {
                 Card(
                     shape = RoundedCornerShape(24.dp),
@@ -476,7 +578,7 @@ fun AppSettingsScreen() {
                 }
             }
 
-            // 7. DEPENDENCY COORDINATES CARD WITH COPY BUTTON
+            // 8. DEPENDENCY COORDINATES CARD WITH COPY BUTTON
             item {
                 Card(
                     shape = RoundedCornerShape(22.dp),
