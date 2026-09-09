@@ -21,42 +21,14 @@ It provides a rich set of tactile, bouncy spring-animated UI components, organic
 
 ## 📱 Application Showcase & Interactive Gallery
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/cd22a313-0334-455a-a45e-c5bf8d63eaab" width="250" alt="Showcase Screen 1" />
-  <img src="https://github.com/user-attachments/assets/0a2ef2a3-324c-439f-8a72-5e554765fe1d" width="250" alt="Showcase Screen 2" />
-  <img src="https://github.com/user-attachments/assets/776e1267-7836-4b0b-b405-4093efddb293" width="250" alt="Showcase Screen 3" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/370cc438-bb09-42d3-87b8-915938991fd9" width="250" alt="Showcase Screen 4" />
-  <img src="https://github.com/user-attachments/assets/464ee351-a3aa-4a3e-b2f7-87f7d136498c" width="250" alt="Showcase Screen 5" />
-  <img src="https://github.com/user-attachments/assets/b235def6-bc3b-4200-b6d5-c737e7dfc695" width="250" alt="Showcase Screen 6" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/56ffec8d-8be0-46ab-8f81-0c63225f7889" width="250" alt="Showcase Screen 7" />
-  <img src="https://github.com/user-attachments/assets/8e2b40c0-b979-4f4d-b220-7d5c00d6f17e" width="250" alt="Showcase Screen 8" />
-  <img src="https://github.com/user-attachments/assets/2db1bda3-31dd-48b1-b2a9-21e014e052b5" width="250" alt="Showcase Screen 9" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/a93c63ce-2084-428c-b1a7-70aa0d9ed57d" width="250" alt="Showcase Screen 10" />
-  <img src="https://github.com/user-attachments/assets/9ab945b4-2f89-4d1a-a7cc-52fa1d20f96d" width="250" alt="Showcase Screen 11" />
-  <img src="https://github.com/user-attachments/assets/a09f577c-529b-4489-8206-e0bc506f50a7" width="250" alt="Showcase Screen 12" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/bcc36f8c-2654-4edd-9518-761e76ef0a09" width="250" alt="Showcase Screen 13" />
-  <img src="https://github.com/user-attachments/assets/caa5d789-7437-43d8-9cac-beb630093d82" width="250" alt="Showcase Screen 14" />
-  <img src="https://github.com/user-attachments/assets/c58e9ff4-c698-45a6-9aa2-89a220762e40" width="250" alt="Showcase Screen 15" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/11940ccb-a354-45e8-a35d-19cf63061931" width="240" alt="Showcase Screen 16" />
-  <img src="https://github.com/user-attachments/assets/d26e3e20-f7c1-4e55-8970-2ba29eee5485" width="240" alt="Showcase Screen 17" />
-  <img src="https://github.com/user-attachments/assets/f95b3fc6-c31a-4919-a552-66f8f35a15a9" width="240" alt="Showcase Screen 18" />
-  <img src="https://github.com/user-attachments/assets/3f968891-6172-4527-ac30-58ad84f83cb4" width="240" alt="Showcase Screen 19" />
-</p>
+| Catalog & Splash | Interactive Controls | Sliders & Progress |
+| :---: | :---: | :---: |
+| ![Screen 1](https://github.com/user-attachments/assets/cd22a313-0334-455a-a45e-c5bf8d63eaab) | ![Screen 2](https://github.com/user-attachments/assets/0a2ef2a3-324c-439f-8a72-5e554765fe1d) | ![Screen 3](https://github.com/user-attachments/assets/776e1267-7836-4b0b-b405-4093efddb293) |
+| ![Screen 4](https://github.com/user-attachments/assets/370cc438-bb09-42d3-87b8-915938991fd9) | ![Screen 5](https://github.com/user-attachments/assets/464ee351-a3aa-4a3e-b2f7-87f7d136498c) | ![Screen 6](https://github.com/user-attachments/assets/b235def6-bc3b-4200-b6d5-c737e7dfc695) |
+| ![Screen 7](https://github.com/user-attachments/assets/56ffec8d-8be0-46ab-8f81-0c63225f7889) | ![Screen 8](https://github.com/user-attachments/assets/8e2b40c0-b979-4f4d-b220-7d5c00d6f17e) | ![Screen 9](https://github.com/user-attachments/assets/2db1bda3-31dd-48b1-b2a9-21e014e052b5) |
+| ![Screen 10](https://github.com/user-attachments/assets/a93c63ce-2084-428c-b1a7-70aa0d9ed57d) | ![Screen 11](https://github.com/user-attachments/assets/9ab945b4-2f89-4d1a-a7cc-52fa1d20f96d) | ![Screen 12](https://github.com/user-attachments/assets/a09f577c-529b-4489-8206-e0bc506f50a7) |
+| ![Screen 13](https://github.com/user-attachments/assets/bcc36f8c-2654-4edd-9518-761e76ef0a09) | ![Screen 14](https://github.com/user-attachments/assets/caa5d789-7437-43d8-9cac-beb630093d82) | ![Screen 15](https://github.com/user-attachments/assets/c58e9ff4-c698-45a6-9aa2-89a220762e40) |
+| ![Screen 16](https://github.com/user-attachments/assets/11940ccb-a354-45e8-a35d-19cf63061931) | ![Screen 17](https://github.com/user-attachments/assets/d26e3e20-f7c1-4e55-8970-2ba29eee5485) | ![Screen 18](https://github.com/user-attachments/assets/f95b3fc6-c31a-4919-a552-66f8f35a15a9) |
 
 ---
 
