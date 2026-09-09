@@ -371,7 +371,7 @@ fun AppSettingsScreen() {
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            // Buy Me a Coffee Button
+                            // Er. Mohd Amaan - Direct Buy Me a Coffee button from .github/FUNDING.yml custom field
                             Button(
                                 onClick = {
                                     hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
@@ -394,7 +394,7 @@ fun AppSettingsScreen() {
                                 )
                             }
 
-                            // GitHub Sponsors Button
+                            // Er. Mohd Amaan - Direct GitHub Sponsor button from .github/FUNDING.yml github field
                             Button(
                                 onClick = {
                                     hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
