@@ -96,6 +96,7 @@ enum class AppScreen {
     SWIPE_DISMISS_DETAIL,
     EXPANDABLE_FAB_DETAIL,
     GLASSMORPHISM_DETAIL,
+    ORBIT_HALO_DETAIL,
     PUSH_DETAIL,
     MORPH_DETAIL,
     FLOATING_BAR_DETAIL,
@@ -154,6 +155,7 @@ fun ExpressiveSplashScreenContainer() {
                                 "swipe_to_dismiss" -> currentScreen = AppScreen.SWIPE_DISMISS_DETAIL
                                 "expandable_fab" -> currentScreen = AppScreen.EXPANDABLE_FAB_DETAIL
                                 "glassmorphism_card" -> currentScreen = AppScreen.GLASSMORPHISM_DETAIL
+                                "orbit_halo_button" -> currentScreen = AppScreen.ORBIT_HALO_DETAIL
                                 "push_buttons" -> currentScreen = AppScreen.PUSH_DETAIL
                                 "morph_buttons" -> currentScreen = AppScreen.MORPH_DETAIL
                                 "floating_bar" -> currentScreen = AppScreen.FLOATING_BAR_DETAIL
@@ -212,6 +214,11 @@ fun ExpressiveSplashScreenContainer() {
                 }
                 AppScreen.GLASSMORPHISM_DETAIL -> {
                     ExpressiveGlassmorphismDetailScreen(
+                        onBackClick = { currentScreen = AppScreen.HOME }
+                    )
+                }
+                AppScreen.ORBIT_HALO_DETAIL -> {
+                    ExpressiveOrbitHaloDetailScreen(
                         onBackClick = { currentScreen = AppScreen.HOME }
                     )
                 }

@@ -1,7 +1,6 @@
 package com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.components.cards
 
 import android.os.Build
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,8 +15,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -40,6 +37,11 @@ import com.ermohdamaan.justforpixel.justforpixelexpressivelab.core.theme.Tactile
  * Separates the background frost glass layer from the foreground text content layer.
  * Setting [blurBehindContent] = true applies [blur] ONLY to the background glass surface,
  * ensuring text, icons, and buttons remain 100% crystal clear, sharp, and readable.
+ *
+ * On Android 12+ (API 31+), hardware-accelerated [blur] is used for live backdrop blur.
+ * On legacy devices (API < 31), a desaturated, muted frosted glass gradient fallback is used
+ * to prevent flat scrim-like appearance over busy backgrounds without frame rate drops.
+ * (API < 31 fallback design concept credit: Kashif Mehmood @kashif_mehmood_ on X).
  *
  * @param onClick Optional callback when card is tapped
  * @param modifier Custom modifier
@@ -75,14 +77,27 @@ fun ExpressiveGlassmorphismCard(
         label = "GlassCardScale"
     )
 
-    // Dynamic Material You Gradient Overlay (Primary to Tertiary frost tint)
-    val glassGradient = Brush.linearGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = frostAlpha),
-            MaterialTheme.colorScheme.primaryContainer.copy(alpha = (frostAlpha * 0.6f)),
-            MaterialTheme.colorScheme.surface.copy(alpha = frostAlpha)
+    // Dynamic Material You Gradient Overlay
+    // For API < 31, uses desaturated muted frost tones (as suggested by @kashif_mehmood_)
+    // to simulate matte frosted glass over busy backgrounds without hardware blur overhead.
+    val isLegacyApi = Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+    val glassGradient = if (isLegacyApi) {
+        Brush.linearGradient(
+            colors = listOf(
+                MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = (frostAlpha * 0.75f)),
+                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = (frostAlpha * 0.5f)),
+                MaterialTheme.colorScheme.surface.copy(alpha = (frostAlpha * 0.85f))
+            )
         )
-    )
+    } else {
+        Brush.linearGradient(
+            colors = listOf(
+                MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = frostAlpha),
+                MaterialTheme.colorScheme.primaryContainer.copy(alpha = (frostAlpha * 0.6f)),
+                MaterialTheme.colorScheme.surface.copy(alpha = frostAlpha)
+            )
+        )
+    }
 
     // Glossy Edge Highlight Border Brush (White / Primary outline)
     val glossyBorder = Brush.linearGradient(

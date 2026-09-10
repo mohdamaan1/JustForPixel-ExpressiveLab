@@ -205,7 +205,7 @@ fun ExpressiveShowcaseScreen(
                                 .padding(12.dp)
                         ) {
                             Text(
-                                text = "implementation(\"com.github.ermohdamaan:expressivelab:1.0.0\")",
+                                text = "implementation(\"com.github.ermohdamaan:expressivelab:1.1.0\")",
                                 fontFamily = FontFamily.Monospace,
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.SemiBold,

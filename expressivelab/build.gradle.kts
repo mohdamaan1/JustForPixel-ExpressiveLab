@@ -48,7 +48,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.smoothCornerRectAndroidCompose)
+    api(libs.smoothCornerRectAndroidCompose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -62,7 +62,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.ermohdamaan"
                 artifactId = "expressivelab"
-                version = "1.1.0"
+                version = "1.1.1"
             }
         }
     }
