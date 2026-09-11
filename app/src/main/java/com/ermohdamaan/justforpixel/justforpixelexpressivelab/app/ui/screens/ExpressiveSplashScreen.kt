@@ -1,5 +1,7 @@
 package com.ermohdamaan.justforpixel.justforpixelexpressivelab.app.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
@@ -37,6 +39,8 @@ import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Verified
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -295,6 +299,7 @@ private fun ExpressiveSplashScreen(
     val hapticFeedback = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
+    val context = LocalContext.current
 
     val motionScheme = remember { MotionScheme.expressive() }
     val spatialDpSpec = remember { motionScheme.defaultSpatialSpec<androidx.compose.ui.unit.Dp>() }
@@ -616,7 +621,122 @@ private fun ExpressiveSplashScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // MORE EXPRESSIVE STYLE @ANDROIDDEV RECOGNITION CARD WITH SQUIRCLE MORPH & BOUNCY SPRING
+            val devCardInteractionSource = remember { MutableInteractionSource() }
+            val isDevCardPressed by devCardInteractionSource.collectIsPressedAsState()
+
+            val devCardCornerRadius by animateDpAsState(
+                targetValue = if (isDevCardPressed) 12.dp else 24.dp,
+                animationSpec = spatialDpSpec,
+                label = "DevCardCornerMorphAnim"
+            )
+            val devCardScale by animateFloatAsState(
+                targetValue = if (isDevCardPressed) 0.94f else 1.0f,
+                animationSpec = TactileMotionTokens.bouncySpring(),
+                label = "DevCardScaleAnim"
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.92f)
+                    .graphicsLayer {
+                        scaleX = devCardScale
+                        scaleY = devCardScale
+                        clip = true
+                        shape = AbsoluteSmoothCornerShape(
+                            cornerRadius = devCardCornerRadius,
+                            smoothnessAsPercent = 60
+                        )
+                    }
+                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+                    .clickable(
+                        interactionSource = devCardInteractionSource,
+                        indication = null,
+                        onClick = {
+                            hapticFeedback.performHapticFeedback(TactileMotionTokens.hapticTap)
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://x.com/AndroidDev")
+                            )
+                            try {
+                                context.startActivity(intent)
+                            } catch (_: Exception) { }
+                        }
+                    )
+                    .padding(horizontal = 16.dp, vertical = 10.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Verified,
+                                    contentDescription = "Verified Android Dev",
+                                    tint = MaterialTheme.colorScheme.onTertiary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.width(12.dp))
+
+                        Column {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = "“Love this!”",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Black,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = "— @AndroidDev",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = MaterialTheme.colorScheme.tertiary
+                                )
+                            }
+                            Text(
+                                text = "Official Google Android Team Recognition",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.8f),
+                                fontSize = 10.5.sp
+                            )
+                        }
+                    }
+
+                    Surface(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+                        modifier = Modifier.padding(start = 6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowForward,
+                            contentDescription = "Open Link",
+                            tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                            modifier = Modifier
+                                .padding(6.dp)
+                                .size(14.dp)
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // MORPHING "EXPLORE CATALOG" BOTTOM BUTTON
             Box(
