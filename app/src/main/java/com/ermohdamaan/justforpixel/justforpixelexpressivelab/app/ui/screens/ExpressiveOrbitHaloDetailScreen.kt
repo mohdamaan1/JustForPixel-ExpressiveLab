@@ -174,7 +174,7 @@ fun ExpressiveOrbitHaloDetailScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "HERO CLUSTER: ALL 5 STATUS HALOS IN ONE LINE",
+                        text = "5 STATUS HALOS",
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.primary,

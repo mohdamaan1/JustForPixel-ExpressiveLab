@@ -60,7 +60,7 @@ It provides a rich set of tactile, bouncy spring-animated UI components, organic
 
 ```
 JustForPixel ExpressiveLab Root
- ├── 📦 :expressivelab  ---> Android Library Module (com.github.ermohdamaan:expressivelab:1.1.0)
+ ├── 📦 :expressivelab  ---> Android Library Module (com.github.ermohdamaan:expressivelab:1.2.0)
  │    ├── 🧩 components/  (Push Buttons, Morphing Icons, Wavy Sliders, Floating Bars, Progress, Rings, Equalizers, Cards)
  │    └── 🎨 theme/       (TactileMotionTokens, AbsoluteSmoothCornerShape, ExpressiveColorScheme)
  └── 📱 :app            ---> Flagship Interactive Showcase Application (com.ermohdamaan.justforpixel.justforpixelexpressivelab.app)
@@ -94,7 +94,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     // JustForPixel ExpressiveLab Material 3 Expressive Component Library
-    implementation("com.github.ermohdamaan:expressivelab:1.1.0")
+    implementation("com.github.ermohdamaan:expressivelab:1.2.0")
 
     // Compose Material 3 Expressive BOM
     implementation(platform("androidx.compose:compose-bom:2026.02.01"))
